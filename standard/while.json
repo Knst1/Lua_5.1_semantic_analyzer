@@ -1,0 +1,56 @@
+{
+    "states": [
+        {
+            "assigment": {
+                "variable_name": "num",
+                "type": "double",
+                "id": 1,
+                "expression": {
+                    "type": "double",
+                    "value": 5.0
+                }
+            }
+        },
+        {
+            "while": {
+                "condition": {
+                    "type": "boolean",
+                    "operator": "<",
+                    "first_argument": {
+                        "variable_name": "num",
+                        "type": "double",
+                        "id": 1
+                    },
+                    "second_argument": {
+                        "type": "double",
+                        "value": 6.0
+                    }
+                },
+                "block": {
+                    "states": [
+                        {
+                            "assigment": {
+                                "variable_name": "num",
+                                "type": "double",
+                                "id": 1,
+                                "expression": {
+                                    "type": "double",
+                                    "operator": "+",
+                                    "first_argument": {
+                                        "variable_name": "num",
+                                        "type": "double",
+                                        "id": 1
+                                    },
+                                    "second_argument": {
+                                        "type": "double",
+                                        "value": 1.0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

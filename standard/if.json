@@ -1,0 +1,194 @@
+{
+    "states": [
+        {
+            "if": {
+                "condition": {
+                    "type": "error",
+                    "operator": ">",
+                    "first_argument": {
+                        "variable_name": "num",
+                        "type": "nil",
+                        "id": 0
+                    },
+                    "second_argument": {
+                        "type": "double",
+                        "value": 40.0
+                    }
+                },
+                "then": {
+                    "states": [
+                        {
+                            "functioncall": {
+                                "prefixexp": {
+                                    "var_name": "print"
+                                },
+                                "arguments": [
+                                    {
+                                        "type": "string",
+                                        "value": "больше 40"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "elseifs": [
+                    {
+                        "condition": {
+                            "type": null,
+                            "operator": "~=",
+                            "first_argument": {
+                                "variable_name": "s",
+                                "type": "nil",
+                                "id": 0
+                            },
+                            "second_argument": {
+                                "type": "string",
+                                "value": "walternate"
+                            }
+                        },
+                        "then": {
+                            "states": [
+                                {
+                                    "functioncall": {
+                                        "prefixexp": {
+                                            "prefix_expression": {
+                                                "var_name": "io"
+                                            },
+                                            "name": "write"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "type": "string",
+                                                "value": "не больше 40\\n"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "type": null,
+                            "operator": "~=",
+                            "first_argument": {
+                                "variable_name": "s",
+                                "type": "nil",
+                                "id": 0
+                            },
+                            "second_argument": {
+                                "type": "string",
+                                "value": "walternate"
+                            }
+                        },
+                        "then": {
+                            "states": [
+                                {
+                                    "functioncall": {
+                                        "prefixexp": {
+                                            "prefix_expression": {
+                                                "var_name": "io"
+                                            },
+                                            "name": "write"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "type": "string",
+                                                "value": "не больше 40\\n"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "else": {
+                    "states": [
+                        {
+                            "assigment": {
+                                "variable_name": "thisIsGlobal",
+                                "type": "double",
+                                "id": 1,
+                                "expression": {
+                                    "type": "double",
+                                    "value": 5.0
+                                }
+                            }
+                        },
+                        {
+                            "if": {
+                                "condition": {
+                                    "type": "boolean",
+                                    "operator": "not",
+                                    "argument": {
+                                        "variable_name": "aBoolValue",
+                                        "type": "nil",
+                                        "id": 0
+                                    }
+                                },
+                                "then": {
+                                    "states": [
+                                        {
+                                            "functioncall": {
+                                                "prefixexp": {
+                                                    "var_name": "print"
+                                                },
+                                                "arguments": [
+                                                    {
+                                                        "type": "string",
+                                                        "value": "это значение ложно"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "assigment": {
+                                "variable_name": "line",
+                                "type": "unknown",
+                                "id": 2,
+                                "expression": {
+                                    "prefixexp": {
+                                        "prefix_expression": {
+                                            "var_name": "io"
+                                        },
+                                        "name": "read"
+                                    },
+                                    "arguments": [],
+                                    "type": "unknown"
+                                }
+                            }
+                        },
+                        {
+                            "functioncall": {
+                                "prefixexp": {
+                                    "var_name": "print"
+                                },
+                                "arguments": [
+                                    {
+                                        "type": "unknown",
+                                        "operator": "..",
+                                        "first_argument": {
+                                            "type": "string",
+                                            "value": "Зима пришла, "
+                                        },
+                                        "second_argument": {
+                                            "variable_name": "line",
+                                            "type": "unknown",
+                                            "id": 2
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

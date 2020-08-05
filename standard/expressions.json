@@ -1,0 +1,177 @@
+{
+    "states": [
+        {
+            "assigment": {
+                "variable_name": "t",
+                "type": "error",
+                "id": 1,
+                "expression": {
+                    "type": "error",
+                    "operator": "+",
+                    "first_argument": {
+                        "type": "error",
+                        "operator": "+",
+                        "first_argument": {
+                            "type": "error",
+                            "operator": "-",
+                            "first_argument": {
+                                "type": "error",
+                                "operator": "+",
+                                "first_argument": {
+                                    "type": "unknown",
+                                    "operator": "*",
+                                    "first_argument": {
+                                        "type": "string",
+                                        "value": "mystr"
+                                    },
+                                    "second_argument": {
+                                        "type": "double",
+                                        "operator": "#",
+                                        "argument": {
+                                            "type": "string",
+                                            "value": "my str"
+                                        }
+                                    }
+                                },
+                                "second_argument": {
+                                    "type": "error",
+                                    "operator": "/",
+                                    "first_argument": {
+                                        "type": "double",
+                                        "operator": "*",
+                                        "first_argument": {
+                                            "type": "double",
+                                            "value": 25.0
+                                        },
+                                        "second_argument": {
+                                            "type": "double",
+                                            "value": 0.3
+                                        }
+                                    },
+                                    "second_argument": {
+                                        "type": "nil",
+                                        "value": "nil"
+                                    }
+                                }
+                            },
+                            "second_argument": {
+                                "variable_name": "d",
+                                "type": "nil",
+                                "id": 0
+                            }
+                        },
+                        "second_argument": {
+                            "type": "double",
+                            "value": 3e50
+                        }
+                    },
+                    "second_argument": {
+                        "type": "double",
+                        "operator": "^",
+                        "first_argument": {
+                            "type": "double",
+                            "value": 426.71875
+                        },
+                        "second_argument": {
+                            "type": "double",
+                            "value": 5.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "r",
+                "type": "double",
+                "id": 2,
+                "expression": {
+                    "type": "double",
+                    "value": 8.0
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "y",
+                "type": "nil",
+                "id": 3
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "rbt_5bfd",
+                "type": "unknown",
+                "id": 4,
+                "expression": {
+                    "type": "unknown",
+                    "operator": "or",
+                    "first_argument": {
+                        "type": "boolean",
+                        "operator": "or",
+                        "first_argument": {
+                            "type": "boolean",
+                            "operator": "and",
+                            "first_argument": {
+                                "type": "string",
+                                "operator": "..",
+                                "first_argument": {
+                                    "type": "string",
+                                    "operator": "..",
+                                    "first_argument": {
+                                        "type": "string",
+                                        "value": "..."
+                                    },
+                                    "second_argument": {
+                                        "type": "string",
+                                        "value": "55"
+                                    }
+                                },
+                                "second_argument": {
+                                    "type": "double",
+                                    "operator": "*",
+                                    "first_argument": {
+                                        "type": "double",
+                                        "value": 26.36
+                                    },
+                                    "second_argument": {
+                                        "variable_name": "r",
+                                        "type": "double",
+                                        "id": 2
+                                    }
+                                }
+                            },
+                            "second_argument": {
+                                "type": "boolean",
+                                "value": true
+                            }
+                        },
+                        "second_argument": {
+                            "type": "boolean",
+                            "operator": "and",
+                            "first_argument": {
+                                "type": "boolean",
+                                "value": false
+                            },
+                            "second_argument": {
+                                "type": "boolean",
+                                "operator": "<",
+                                "first_argument": {
+                                    "type": "double",
+                                    "value": 1.0
+                                },
+                                "second_argument": {
+                                    "type": "double",
+                                    "value": 5.0
+                                }
+                            }
+                        }
+                    },
+                    "second_argument": {
+                        "type": "dots"
+                    }
+                }
+            }
+        }
+    ]
+}

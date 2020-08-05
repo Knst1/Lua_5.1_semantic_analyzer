@@ -1,0 +1,526 @@
+{
+    "states": [
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": false,
+                    "function_name": [
+                        "fib"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "namelist": [
+                            {
+                                "variable_name": "n",
+                                "type": "unknown",
+                                "id": 1
+                            }
+                        ],
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [
+                            {
+                                "if": {
+                                    "condition": {
+                                        "type": "error",
+                                        "operator": "<",
+                                        "first_argument": {
+                                            "variable_name": "n",
+                                            "type": "unknown",
+                                            "id": 1
+                                        },
+                                        "second_argument": {
+                                            "type": "double",
+                                            "value": 2.0
+                                        }
+                                    },
+                                    "then": {
+                                        "states": [],
+                                        "retstat": {
+                                            "return_expressions": [
+                                                {
+                                                    "variable_name": "n",
+                                                    "type": "unknown",
+                                                    "id": 1
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "retstat": {
+                            "return_expressions": [
+                                {
+                                    "type": "unknown",
+                                    "operator": "+",
+                                    "first_argument": {
+                                        "prefixexp": {
+                                            "var_name": "fib"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "type": "unknown",
+                                                "operator": "-",
+                                                "first_argument": {
+                                                    "variable_name": "n",
+                                                    "type": "unknown",
+                                                    "id": 1
+                                                },
+                                                "second_argument": {
+                                                    "type": "double",
+                                                    "value": 2.0
+                                                }
+                                            }
+                                        ],
+                                        "type": "unknown"
+                                    },
+                                    "second_argument": {
+                                        "prefixexp": {
+                                            "var_name": "fib"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "type": "unknown",
+                                                "operator": "-",
+                                                "first_argument": {
+                                                    "variable_name": "n",
+                                                    "type": "unknown",
+                                                    "id": 1
+                                                },
+                                                "second_argument": {
+                                                    "type": "double",
+                                                    "value": 1.0
+                                                }
+                                            }
+                                        ],
+                                        "type": "unknown"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": false,
+                    "function_name": [
+                        "adder"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "namelist": [
+                            {
+                                "variable_name": "x",
+                                "type": "unknown",
+                                "id": 2
+                            }
+                        ],
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [],
+                        "retstat": {
+                            "return_expressions": [
+                                {
+                                    "type": "functiondef",
+                                    "value": {
+                                        "funcbody": {
+                                            "parlist": {
+                                                "namelist": [
+                                                    {
+                                                        "variable_name": "y",
+                                                        "type": "unknown",
+                                                        "id": 3
+                                                    }
+                                                ],
+                                                "dots": false
+                                            },
+                                            "block": {
+                                                "states": [],
+                                                "retstat": {
+                                                    "return_expressions": [
+                                                        {
+                                                            "type": "unknown",
+                                                            "operator": "+",
+                                                            "first_argument": {
+                                                                "variable_name": "x",
+                                                                "type": "unknown",
+                                                                "id": 2
+                                                            },
+                                                            "second_argument": {
+                                                                "variable_name": "y",
+                                                                "type": "unknown",
+                                                                "id": 3
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": false,
+                    "function_name": [
+                        "bar"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "namelist": [
+                            {
+                                "variable_name": "a",
+                                "type": "unknown",
+                                "id": 4
+                            },
+                            {
+                                "variable_name": "b",
+                                "type": "unknown",
+                                "id": 5
+                            },
+                            {
+                                "variable_name": "c",
+                                "type": "unknown",
+                                "id": 6
+                            }
+                        ],
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [
+                            {
+                                "functioncall": {
+                                    "prefixexp": {
+                                        "var_name": "print"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "variable_name": "a",
+                                            "type": "unknown",
+                                            "id": 4
+                                        },
+                                        {
+                                            "variable_name": "b",
+                                            "type": "unknown",
+                                            "id": 5
+                                        },
+                                        {
+                                            "variable_name": "c",
+                                            "type": "unknown",
+                                            "id": 6
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "retstat": {
+                            "return_expressions": [
+                                {
+                                    "type": "double",
+                                    "value": 4.0
+                                },
+                                {
+                                    "type": "double",
+                                    "value": 8.0
+                                },
+                                {
+                                    "type": "double",
+                                    "value": 15.0
+                                },
+                                {
+                                    "type": "double",
+                                    "value": 16.0
+                                },
+                                {
+                                    "type": "double",
+                                    "value": 23.0
+                                },
+                                {
+                                    "type": "double",
+                                    "value": 42.0
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": false,
+                    "function_name": [
+                        "h"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "namelist": [
+                            {
+                                "variable_name": "x",
+                                "type": "unknown",
+                                "id": 7
+                            }
+                        ],
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [
+                            {
+                                "functioncall": {
+                                    "prefixexp": {
+                                        "var_name": "print"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "prefix_expression": {
+                                                "var_name": "x"
+                                            },
+                                            "name": "key1",
+                                            "type": "unknown"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "functioncall": {
+                "prefixexp": {
+                    "var_name": "h"
+                },
+                "arguments": {
+                    "table": {
+                        "fieldlist": [
+                            {
+                                "left_name": "key1",
+                                "right_expression": {
+                                    "type": "string",
+                                    "value": "Sonmi~451"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": false,
+                    "function_name": [
+                        "metafraction",
+                        "__add"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "namelist": [
+                            {
+                                "variable_name": "f1",
+                                "type": "unknown",
+                                "id": 8
+                            },
+                            {
+                                "variable_name": "f2",
+                                "type": "unknown",
+                                "id": 9
+                            }
+                        ],
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [
+                            {
+                                "assigment": {
+                                    "variable_name": "sum",
+                                    "type": "table",
+                                    "id": 10,
+                                    "expression": {
+                                        "type": "table",
+                                        "value": {
+                                            "fieldlist": {}
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "assigment": {
+                                    "variable": {
+                                        "prefix_expression": {
+                                            "var_name": "sum"
+                                        },
+                                        "name": "b"
+                                    },
+                                    "expression": {
+                                        "type": "unknown",
+                                        "operator": "*",
+                                        "first_argument": {
+                                            "prefix_expression": {
+                                                "var_name": "f1"
+                                            },
+                                            "name": "b",
+                                            "type": "unknown"
+                                        },
+                                        "second_argument": {
+                                            "prefix_expression": {
+                                                "var_name": "f2"
+                                            },
+                                            "name": "b",
+                                            "type": "unknown"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "assigment": {
+                                    "variable": {
+                                        "prefix_expression": {
+                                            "var_name": "sum"
+                                        },
+                                        "name": "a"
+                                    },
+                                    "expression": {
+                                        "type": "unknown",
+                                        "operator": "+",
+                                        "first_argument": {
+                                            "type": "unknown",
+                                            "operator": "*",
+                                            "first_argument": {
+                                                "prefix_expression": {
+                                                    "var_name": "f1"
+                                                },
+                                                "name": "a",
+                                                "type": "unknown"
+                                            },
+                                            "second_argument": {
+                                                "prefix_expression": {
+                                                    "var_name": "f2"
+                                                },
+                                                "name": "b",
+                                                "type": "unknown"
+                                            }
+                                        },
+                                        "second_argument": {
+                                            "type": "unknown",
+                                            "operator": "*",
+                                            "first_argument": {
+                                                "prefix_expression": {
+                                                    "var_name": "f2"
+                                                },
+                                                "name": "a",
+                                                "type": "unknown"
+                                            },
+                                            "second_argument": {
+                                                "prefix_expression": {
+                                                    "var_name": "f1"
+                                                },
+                                                "name": "b",
+                                                "type": "unknown"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "retstat": {
+                            "return_expressions": [
+                                {
+                                    "variable_name": "sum",
+                                    "type": "table",
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "function_definition": {
+                "name": {
+                    "self_argument": true,
+                    "function_name": [
+                        "Dog",
+                        "makeSound"
+                    ]
+                },
+                "body": {
+                    "parlist": {
+                        "dots": false
+                    },
+                    "block": {
+                        "states": [
+                            {
+                                "functioncall": {
+                                    "prefixexp": {
+                                        "var_name": "print"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "type": "unknown",
+                                            "operator": "..",
+                                            "first_argument": {
+                                                "type": "string",
+                                                "value": "I say "
+                                            },
+                                            "second_argument": {
+                                                "prefix_expression": {
+                                                    "var_name": "self"
+                                                },
+                                                "name": "sound",
+                                                "type": "unknown"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "mrDog",
+                "type": "unknown",
+                "id": 11,
+                "expression": {
+                    "prefixexp": {
+                        "var_name": "Dog"
+                    },
+                    "name": "new",
+                    "arguments": [],
+                    "type": "unknown"
+                }
+            }
+        },
+        {
+            "functioncall": {
+                "prefixexp": {
+                    "var_name": "mrDog"
+                },
+                "name": "makeSound",
+                "arguments": []
+            }
+        }
+    ]
+}

@@ -1,0 +1,144 @@
+{
+    "states": [
+        {
+            "assigment": {
+                "variable_name": "t",
+                "type": "table",
+                "id": 1,
+                "expression": {
+                    "type": "table",
+                    "value": {
+                        "fieldlist": [
+                            {
+                                "left_name": "key1",
+                                "right_expression": {
+                                    "type": "string",
+                                    "value": "value1"
+                                }
+                            },
+                            {
+                                "left_name": "key2",
+                                "right_expression": {
+                                    "type": "boolean",
+                                    "value": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "functioncall": {
+                "prefixexp": {
+                    "var_name": "print"
+                },
+                "arguments": [
+                    {
+                        "prefix_expression": {
+                            "var_name": "t"
+                        },
+                        "name": "key1",
+                        "type": "unknown"
+                    }
+                ]
+            }
+        },
+        {
+            "assigment": {
+                "variable": {
+                    "prefix_expression": {
+                        "var_name": "t"
+                    },
+                    "name": "newKey"
+                },
+                "expression": {
+                    "type": "table",
+                    "value": {
+                        "fieldlist": {}
+                    }
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable": {
+                    "prefix_expression": {
+                        "var_name": "t"
+                    },
+                    "name": "key2"
+                },
+                "expression": {
+                    "type": "nil",
+                    "value": "nil"
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "v",
+                "type": "table",
+                "id": 2,
+                "expression": {
+                    "type": "table",
+                    "value": {
+                        "fieldlist": [
+                            {
+                                "expression": {
+                                    "type": "string",
+                                    "value": "value1"
+                                }
+                            },
+                            {
+                                "expression": {
+                                    "type": "string",
+                                    "value": "value2"
+                                }
+                            },
+                            {
+                                "expression": {
+                                    "type": "double",
+                                    "value": 1.21
+                                }
+                            },
+                            {
+                                "expression": {
+                                    "type": "string",
+                                    "value": "gigawatts"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "f1",
+                "type": "table",
+                "id": 3,
+                "expression": {
+                    "type": "table",
+                    "value": {
+                        "fieldlist": [
+                            {
+                                "left_name": "a",
+                                "right_expression": {
+                                    "type": "double",
+                                    "value": 1.0
+                                }
+                            },
+                            {
+                                "left_name": "b",
+                                "right_expression": {
+                                    "type": "double",
+                                    "value": 2.0
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

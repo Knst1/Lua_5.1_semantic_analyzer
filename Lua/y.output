@@ -1,0 +1,3980 @@
+Terminals unused in grammar
+
+    TK_WHITESPACE
+    TK_BADCHAR
+
+
+State 0 conflicts: 1 reduce/reduce
+State 19 conflicts: 1 shift/reduce
+State 37 conflicts: 1 shift/reduce
+State 40 conflicts: 1 shift/reduce
+State 43 conflicts: 1 shift/reduce
+State 83 conflicts: 2 shift/reduce
+State 125 conflicts: 1 shift/reduce
+State 131 conflicts: 1 shift/reduce
+State 183 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: program "end of file"
+
+    1 program: block
+    2        | %empty
+
+    3 $@1: %empty
+
+    4 block: $@1 opstat retstat
+
+    5 opstat: stat opstat
+    6       | TK_SEMICOLON opstat
+    7       | %empty
+
+    8 stat: varlist TK_UEQ explist
+    9     | functioncall
+   10     | TK_DO block TK_END
+   11     | TK_WHILE exp TK_DO block TK_END
+   12     | TK_REPEAT block TK_UNTIL exp
+   13     | TK_IF exp TK_THEN block elseifs else TK_END
+
+   14 $@2: %empty
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO block TK_END
+
+   16 $@3: %empty
+
+   17 stat: TK_FOR namelist TK_IN explist $@3 TK_DO block TK_END
+   18     | TK_FUNCTION funcname funcbody
+   19     | TK_LOCAL TK_FUNCTION TK_NAME funcbody
+   20     | TK_LOCAL namelist eqexplist
+
+   21 forstep: TK_COMMA exp
+   22        | %empty
+
+   23 eqexplist: TK_UEQ explist
+   24          | %empty
+
+   25 elseif: TK_ELSEIF exp TK_THEN block
+
+   26 elseifs: elseif elseifs
+   27        | %empty
+
+   28 else: TK_ELSE block
+   29     | %empty
+
+   30 retstat: TK_RETURN opexplist opsemicolon
+   31        | TK_BREAK opsemicolon
+   32        | %empty
+
+   33 opexplist: explist
+   34          | %empty
+
+   35 opsemicolon: TK_SEMICOLON
+   36            | %empty
+
+   37 funcname: TK_NAME dotnames colonname
+
+   38 dotnames: TK_DOT TK_NAME dotnames
+   39         | %empty
+
+   40 colonname: TK_COLON TK_NAME
+   41          | %empty
+
+   42 varlist: var commavar
+
+   43 commavar: TK_COMMA varlist
+   44         | %empty
+
+   45 var: TK_NAME
+   46    | var TK_LKB exp TK_RKB
+   47    | functioncall TK_LKB exp TK_RKB
+   48    | TK_LB exp TK_RB TK_LKB exp TK_RKB
+   49    | var TK_DOT TK_NAME
+   50    | functioncall TK_DOT TK_NAME
+   51    | TK_LB exp TK_RB TK_DOT TK_NAME
+
+   52 namelist: TK_NAME commanames
+
+   53 commanames: TK_COMMA TK_NAME commanames
+   54           | %empty
+
+   55 explist: exp commaexps
+
+   56 commaexps: TK_COMMA exp commaexps
+   57          | %empty
+
+   58 exp: TK_NIL
+   59    | TK_FALSE
+   60    | TK_TRUE
+   61    | TK_NUMBER
+   62    | TK_STRING
+   63    | TK_DOTS
+   64    | functiondef
+   65    | prefixexp
+   66    | tableconstructor
+   67    | exp TK_PLUS exp
+   68    | exp TK_MINUS exp
+   69    | exp TK_MUL exp
+   70    | exp TK_DIV exp
+   71    | exp TK_CARET exp
+   72    | exp TK_PREC exp
+   73    | exp TK_CONCAT exp
+   74    | exp TK_LT exp
+   75    | exp TK_LE exp
+   76    | exp TK_GR exp
+   77    | exp TK_GE exp
+   78    | exp TK_EQ exp
+   79    | exp TK_NE exp
+   80    | exp TK_AND exp
+   81    | exp TK_OR exp
+   82    | TK_MINUS exp
+   83    | TK_NOT exp
+   84    | TK_HASH exp
+
+   85 prefixexp: var
+   86          | functioncall
+   87          | TK_LB exp TK_RB
+
+   88 functioncall: var args
+   89             | functioncall args
+   90             | TK_LB exp TK_RB args
+   91             | var TK_COLON TK_NAME args
+   92             | functioncall TK_COLON TK_NAME args
+   93             | TK_LB exp TK_RB TK_COLON TK_NAME args
+
+   94 args: TK_LB opexplist TK_RB
+   95     | tableconstructor
+   96     | TK_STRING
+
+   97 functiondef: TK_FUNCTION funcbody
+
+   98 $@4: %empty
+
+   99 funcbody: $@4 TK_LB parlist TK_RB block TK_END
+
+  100 parlist: namelist opcommadots
+  101        | TK_DOTS
+  102        | %empty
+
+  103 opcommadots: TK_COMMA TK_DOTS
+  104            | %empty
+
+  105 tableconstructor: TK_LFB fieldlist TK_RFB
+
+  106 fieldlist: field opsepfields opsep
+  107          | %empty
+
+  108 opsepfields: fieldsep field opsepfields
+  109            | %empty
+
+  110 opsep: fieldsep
+  111      | %empty
+
+  112 field: TK_LKB exp TK_RKB TK_UEQ exp
+  113      | TK_NAME TK_UEQ exp
+  114      | exp
+
+  115 fieldsep: TK_COMMA
+  116         | TK_SEMICOLON
+
+
+Terminals, with rules where they appear
+
+    "end of file" (0) 0
+    error (256)
+    TK_NAME <std::string> (258) 15 19 37 38 40 45 49 50 51 52 53 91 92 93 113
+    TK_BREAK <std::string> (259) 31
+    TK_DO <std::string> (260) 10 11 15 17
+    TK_ELSE <std::string> (261) 28
+    TK_ELSEIF <std::string> (262) 25
+    TK_END <std::string> (263) 10 11 13 15 17 99
+    TK_FALSE <std::string> (264) 59
+    TK_FOR <std::string> (265) 15 17
+    TK_FUNCTION <std::string> (266) 18 19 97
+    TK_IF <std::string> (267) 13
+    TK_IN <std::string> (268) 17
+    TK_LOCAL <std::string> (269) 19 20
+    TK_NIL <std::string> (270) 58
+    TK_REPEAT <std::string> (271) 12
+    TK_RETURN <std::string> (272) 30
+    TK_THEN <std::string> (273) 13 25
+    TK_TRUE <std::string> (274) 60
+    TK_UNTIL <std::string> (275) 12
+    TK_WHILE <std::string> (276) 11
+    TK_DOTS <std::string> (277) 63 101 103
+    TK_NUMBER <double> (278) 61
+    TK_STRING <std::string> (279) 62 96
+    TK_WHITESPACE <std::string> (280)
+    TK_BADCHAR <std::string> (281)
+    TK_SEMICOLON <std::string> (282) 6 35 116
+    TK_COLON <std::string> (283) 40 91 92 93
+    TK_UEQ <std::string> (284) 8 15 23 112 113
+    TK_LB <std::string> (285) 48 51 87 90 93 94 99
+    TK_RB <std::string> (286) 48 51 87 90 93 94 99
+    TK_LKB <std::string> (287) 46 47 48 112
+    TK_RKB <std::string> (288) 46 47 48 112
+    TK_LFB <std::string> (289) 105
+    TK_RFB <std::string> (290) 105
+    TK_COMMA <std::string> (291) 15 21 43 53 56 103 115
+    TK_DOT <std::string> (292) 38 49 50 51
+    TK_OR <std::string> (293) 81
+    TK_AND <std::string> (294) 80
+    TK_LT <std::string> (295) 74
+    TK_GR <std::string> (296) 76
+    TK_GE <std::string> (297) 77
+    TK_LE <std::string> (298) 75
+    TK_EQ <std::string> (299) 78
+    TK_NE <std::string> (300) 79
+    TK_CONCAT <std::string> (301) 73
+    TK_PLUS <std::string> (302) 67
+    TK_MINUS <std::string> (303) 68 82
+    TK_MUL <std::string> (304) 69
+    TK_DIV <std::string> (305) 70
+    TK_PREC <std::string> (306) 72
+    TK_CARET <std::string> (307) 71
+    TK_NOT <std::string> (308) 83
+    TK_HASH <std::string> (309) 84
+    UMINUS (310)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (56)
+        on left: 0
+    program <rapidjson::Document *> (57)
+        on left: 1 2
+        on right: 0
+    block <rapidjson::Document *> (58)
+        on left: 4
+        on right: 1 10 11 12 13 15 17 25 28 99
+    $@1 (59)
+        on left: 3
+        on right: 4
+    opstat <std::vector<rapidjson::Document *>> (60)
+        on left: 5 6 7
+        on right: 4 5 6
+    stat <rapidjson::Document *> (61)
+        on left: 8 9 10 11 12 13 15 17 18 19 20
+        on right: 5
+    $@2 (62)
+        on left: 14
+        on right: 15
+    $@3 (63)
+        on left: 16
+        on right: 17
+    forstep <rapidjson::Document *> (64)
+        on left: 21 22
+        on right: 15
+    eqexplist <std::vector<rapidjson::Document *>> (65)
+        on left: 23 24
+        on right: 20
+    elseif <rapidjson::Document *> (66)
+        on left: 25
+        on right: 26
+    elseifs <std::vector<rapidjson::Document *>> (67)
+        on left: 26 27
+        on right: 13 26
+    else <rapidjson::Document *> (68)
+        on left: 28 29
+        on right: 13
+    retstat <rapidjson::Document *> (69)
+        on left: 30 31 32
+        on right: 4
+    opexplist <std::vector<rapidjson::Document *>> (70)
+        on left: 33 34
+        on right: 30 94
+    opsemicolon <std::string> (71)
+        on left: 35 36
+        on right: 30 31
+    funcname <rapidjson::Document *> (72)
+        on left: 37
+        on right: 18
+    dotnames <std::vector<std::string>> (73)
+        on left: 38 39
+        on right: 37 38
+    colonname <std::string> (74)
+        on left: 40 41
+        on right: 37
+    varlist <std::vector<rapidjson::Document *>> (75)
+        on left: 42
+        on right: 8 43
+    commavar <std::vector<rapidjson::Document *>> (76)
+        on left: 43 44
+        on right: 42
+    var <rapidjson::Document *> (77)
+        on left: 45 46 47 48 49 50 51
+        on right: 42 46 49 85 88 91
+    namelist <std::vector<std::string>> (78)
+        on left: 52
+        on right: 17 20 100
+    commanames <std::vector<std::string>> (79)
+        on left: 53 54
+        on right: 52 53
+    explist <std::vector<rapidjson::Document *>> (80)
+        on left: 55
+        on right: 8 17 23 33
+    commaexps <std::vector<rapidjson::Document *>> (81)
+        on left: 56 57
+        on right: 55 56
+    exp <rapidjson::Document *> (82)
+        on left: 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84
+        on right: 11 12 13 15 21 25 46 47 48 51 55 56 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 87 90 93 112 113 114
+    prefixexp <rapidjson::Document *> (83)
+        on left: 85 86 87
+        on right: 65
+    functioncall <rapidjson::Document *> (84)
+        on left: 88 89 90 91 92 93
+        on right: 9 47 50 86 89 92
+    args <rapidjson::Document *> (85)
+        on left: 94 95 96
+        on right: 88 89 90 91 92 93
+    functiondef <rapidjson::Document *> (86)
+        on left: 97
+        on right: 64
+    funcbody <rapidjson::Document *> (87)
+        on left: 99
+        on right: 18 19 97
+    $@4 (88)
+        on left: 98
+        on right: 99
+    parlist <rapidjson::Document *> (89)
+        on left: 100 101 102
+        on right: 99
+    opcommadots <bool> (90)
+        on left: 103 104
+        on right: 100
+    tableconstructor <rapidjson::Document *> (91)
+        on left: 105
+        on right: 66 95
+    fieldlist <rapidjson::Document *> (92)
+        on left: 106 107
+        on right: 105
+    opsepfields <std::vector<rapidjson::Document *>> (93)
+        on left: 108 109
+        on right: 106 108
+    opsep <std::string> (94)
+        on left: 110 111
+        on right: 106
+    field <rapidjson::Document *> (95)
+        on left: 112 113 114
+        on right: 106 108
+    fieldsep <std::string> (96)
+        on left: 115 116
+        on right: 108 110
+
+
+State 0
+
+    0 $accept: . program "end of file"
+
+    "end of file"  reduce using rule 2 (program)
+    "end of file"  [reduce using rule 3 ($@1)]
+    $default       reduce using rule 3 ($@1)
+
+    program  go to state 1
+    block    go to state 2
+    $@1      go to state 3
+
+
+State 1
+
+    0 $accept: program . "end of file"
+
+    "end of file"  shift, and go to state 4
+
+
+State 2
+
+    1 program: block .
+
+    $default  reduce using rule 1 (program)
+
+
+State 3
+
+    4 block: $@1 . opstat retstat
+
+    TK_NAME       shift, and go to state 5
+    TK_DO         shift, and go to state 6
+    TK_FOR        shift, and go to state 7
+    TK_FUNCTION   shift, and go to state 8
+    TK_IF         shift, and go to state 9
+    TK_LOCAL      shift, and go to state 10
+    TK_REPEAT     shift, and go to state 11
+    TK_WHILE      shift, and go to state 12
+    TK_SEMICOLON  shift, and go to state 13
+    TK_LB         shift, and go to state 14
+
+    $default  reduce using rule 7 (opstat)
+
+    opstat        go to state 15
+    stat          go to state 16
+    varlist       go to state 17
+    var           go to state 18
+    functioncall  go to state 19
+
+
+State 4
+
+    0 $accept: program "end of file" .
+
+    $default  accept
+
+
+State 5
+
+   45 var: TK_NAME .
+
+    $default  reduce using rule 45 (var)
+
+
+State 6
+
+   10 stat: TK_DO . block TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 20
+    $@1    go to state 3
+
+
+State 7
+
+   15 stat: TK_FOR . TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO block TK_END
+   17     | TK_FOR . namelist TK_IN explist $@3 TK_DO block TK_END
+
+    TK_NAME  shift, and go to state 21
+
+    namelist  go to state 22
+
+
+State 8
+
+   18 stat: TK_FUNCTION . funcname funcbody
+
+    TK_NAME  shift, and go to state 23
+
+    funcname  go to state 24
+
+
+State 9
+
+   13 stat: TK_IF . exp TK_THEN block elseifs else TK_END
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 38
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 10
+
+   19 stat: TK_LOCAL . TK_FUNCTION TK_NAME funcbody
+   20     | TK_LOCAL . namelist eqexplist
+
+    TK_NAME      shift, and go to state 43
+    TK_FUNCTION  shift, and go to state 44
+
+    namelist  go to state 45
+
+
+State 11
+
+   12 stat: TK_REPEAT . block TK_UNTIL exp
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 46
+    $@1    go to state 3
+
+
+State 12
+
+   11 stat: TK_WHILE . exp TK_DO block TK_END
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 47
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 13
+
+    6 opstat: TK_SEMICOLON . opstat
+
+    TK_NAME       shift, and go to state 5
+    TK_DO         shift, and go to state 6
+    TK_FOR        shift, and go to state 7
+    TK_FUNCTION   shift, and go to state 8
+    TK_IF         shift, and go to state 9
+    TK_LOCAL      shift, and go to state 10
+    TK_REPEAT     shift, and go to state 11
+    TK_WHILE      shift, and go to state 12
+    TK_SEMICOLON  shift, and go to state 13
+    TK_LB         shift, and go to state 14
+
+    $default  reduce using rule 7 (opstat)
+
+    opstat        go to state 48
+    stat          go to state 16
+    varlist       go to state 17
+    var           go to state 18
+    functioncall  go to state 19
+
+
+State 14
+
+   48 var: TK_LB . exp TK_RB TK_LKB exp TK_RKB
+   51    | TK_LB . exp TK_RB TK_DOT TK_NAME
+   90 functioncall: TK_LB . exp TK_RB args
+   93             | TK_LB . exp TK_RB TK_COLON TK_NAME args
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 49
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 15
+
+    4 block: $@1 opstat . retstat
+
+    TK_BREAK   shift, and go to state 50
+    TK_RETURN  shift, and go to state 51
+
+    $default  reduce using rule 32 (retstat)
+
+    retstat  go to state 52
+
+
+State 16
+
+    5 opstat: stat . opstat
+
+    TK_NAME       shift, and go to state 5
+    TK_DO         shift, and go to state 6
+    TK_FOR        shift, and go to state 7
+    TK_FUNCTION   shift, and go to state 8
+    TK_IF         shift, and go to state 9
+    TK_LOCAL      shift, and go to state 10
+    TK_REPEAT     shift, and go to state 11
+    TK_WHILE      shift, and go to state 12
+    TK_SEMICOLON  shift, and go to state 13
+    TK_LB         shift, and go to state 14
+
+    $default  reduce using rule 7 (opstat)
+
+    opstat        go to state 53
+    stat          go to state 16
+    varlist       go to state 17
+    var           go to state 18
+    functioncall  go to state 19
+
+
+State 17
+
+    8 stat: varlist . TK_UEQ explist
+
+    TK_UEQ  shift, and go to state 54
+
+
+State 18
+
+   42 varlist: var . commavar
+   46 var: var . TK_LKB exp TK_RKB
+   49    | var . TK_DOT TK_NAME
+   88 functioncall: var . args
+   91             | var . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 56
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 58
+    TK_LFB     shift, and go to state 33
+    TK_COMMA   shift, and go to state 59
+    TK_DOT     shift, and go to state 60
+
+    $default  reduce using rule 44 (commavar)
+
+    commavar          go to state 61
+    args              go to state 62
+    tableconstructor  go to state 63
+
+
+State 19
+
+    9 stat: functioncall .
+   47 var: functioncall . TK_LKB exp TK_RKB
+   50    | functioncall . TK_DOT TK_NAME
+   89 functioncall: functioncall . args
+   92             | functioncall . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 64
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 65
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 66
+
+    TK_LB     [reduce using rule 9 (stat)]
+    $default  reduce using rule 9 (stat)
+
+    args              go to state 67
+    tableconstructor  go to state 63
+
+
+State 20
+
+   10 stat: TK_DO block . TK_END
+
+    TK_END  shift, and go to state 68
+
+
+State 21
+
+   15 stat: TK_FOR TK_NAME . TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO block TK_END
+   52 namelist: TK_NAME . commanames
+
+    TK_UEQ    shift, and go to state 69
+    TK_COMMA  shift, and go to state 70
+
+    $default  reduce using rule 54 (commanames)
+
+    commanames  go to state 71
+
+
+State 22
+
+   17 stat: TK_FOR namelist . TK_IN explist $@3 TK_DO block TK_END
+
+    TK_IN  shift, and go to state 72
+
+
+State 23
+
+   37 funcname: TK_NAME . dotnames colonname
+
+    TK_DOT  shift, and go to state 73
+
+    $default  reduce using rule 39 (dotnames)
+
+    dotnames  go to state 74
+
+
+State 24
+
+   18 stat: TK_FUNCTION funcname . funcbody
+
+    $default  reduce using rule 98 ($@4)
+
+    funcbody  go to state 75
+    $@4       go to state 76
+
+
+State 25
+
+   59 exp: TK_FALSE .
+
+    $default  reduce using rule 59 (exp)
+
+
+State 26
+
+   97 functiondef: TK_FUNCTION . funcbody
+
+    $default  reduce using rule 98 ($@4)
+
+    funcbody  go to state 77
+    $@4       go to state 76
+
+
+State 27
+
+   58 exp: TK_NIL .
+
+    $default  reduce using rule 58 (exp)
+
+
+State 28
+
+   60 exp: TK_TRUE .
+
+    $default  reduce using rule 60 (exp)
+
+
+State 29
+
+   63 exp: TK_DOTS .
+
+    $default  reduce using rule 63 (exp)
+
+
+State 30
+
+   61 exp: TK_NUMBER .
+
+    $default  reduce using rule 61 (exp)
+
+
+State 31
+
+   62 exp: TK_STRING .
+
+    $default  reduce using rule 62 (exp)
+
+
+State 32
+
+   48 var: TK_LB . exp TK_RB TK_LKB exp TK_RKB
+   51    | TK_LB . exp TK_RB TK_DOT TK_NAME
+   87 prefixexp: TK_LB . exp TK_RB
+   90 functioncall: TK_LB . exp TK_RB args
+   93             | TK_LB . exp TK_RB TK_COLON TK_NAME args
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 78
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 33
+
+  105 tableconstructor: TK_LFB . fieldlist TK_RFB
+
+    TK_NAME      shift, and go to state 79
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LKB       shift, and go to state 80
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    $default  reduce using rule 107 (fieldlist)
+
+    var               go to state 37
+    exp               go to state 81
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+    fieldlist         go to state 82
+    field             go to state 83
+
+
+State 34
+
+   82 exp: TK_MINUS . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 84
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 35
+
+   83 exp: TK_NOT . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 85
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 36
+
+   84 exp: TK_HASH . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 86
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 37
+
+   46 var: var . TK_LKB exp TK_RKB
+   49    | var . TK_DOT TK_NAME
+   85 prefixexp: var .
+   88 functioncall: var . args
+   91             | var . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 56
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 58
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 60
+
+    TK_LB     [reduce using rule 85 (prefixexp)]
+    $default  reduce using rule 85 (prefixexp)
+
+    args              go to state 62
+    tableconstructor  go to state 63
+
+
+State 38
+
+   13 stat: TK_IF exp . TK_THEN block elseifs else TK_END
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_THEN    shift, and go to state 87
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 39
+
+   65 exp: prefixexp .
+
+    $default  reduce using rule 65 (exp)
+
+
+State 40
+
+   47 var: functioncall . TK_LKB exp TK_RKB
+   50    | functioncall . TK_DOT TK_NAME
+   86 prefixexp: functioncall .
+   89 functioncall: functioncall . args
+   92             | functioncall . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 64
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 65
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 66
+
+    TK_LB     [reduce using rule 86 (prefixexp)]
+    $default  reduce using rule 86 (prefixexp)
+
+    args              go to state 67
+    tableconstructor  go to state 63
+
+
+State 41
+
+   64 exp: functiondef .
+
+    $default  reduce using rule 64 (exp)
+
+
+State 42
+
+   66 exp: tableconstructor .
+
+    $default  reduce using rule 66 (exp)
+
+
+State 43
+
+   52 namelist: TK_NAME . commanames
+
+    TK_COMMA  shift, and go to state 70
+
+    TK_COMMA  [reduce using rule 54 (commanames)]
+    $default  reduce using rule 54 (commanames)
+
+    commanames  go to state 71
+
+
+State 44
+
+   19 stat: TK_LOCAL TK_FUNCTION . TK_NAME funcbody
+
+    TK_NAME  shift, and go to state 103
+
+
+State 45
+
+   20 stat: TK_LOCAL namelist . eqexplist
+
+    TK_UEQ  shift, and go to state 104
+
+    $default  reduce using rule 24 (eqexplist)
+
+    eqexplist  go to state 105
+
+
+State 46
+
+   12 stat: TK_REPEAT block . TK_UNTIL exp
+
+    TK_UNTIL  shift, and go to state 106
+
+
+State 47
+
+   11 stat: TK_WHILE exp . TK_DO block TK_END
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_DO      shift, and go to state 107
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 48
+
+    6 opstat: TK_SEMICOLON opstat .
+
+    $default  reduce using rule 6 (opstat)
+
+
+State 49
+
+   48 var: TK_LB exp . TK_RB TK_LKB exp TK_RKB
+   51    | TK_LB exp . TK_RB TK_DOT TK_NAME
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   90 functioncall: TK_LB exp . TK_RB args
+   93             | TK_LB exp . TK_RB TK_COLON TK_NAME args
+
+    TK_RB      shift, and go to state 108
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 50
+
+   31 retstat: TK_BREAK . opsemicolon
+
+    TK_SEMICOLON  shift, and go to state 109
+
+    $default  reduce using rule 36 (opsemicolon)
+
+    opsemicolon  go to state 110
+
+
+State 51
+
+   30 retstat: TK_RETURN . opexplist opsemicolon
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    $default  reduce using rule 34 (opexplist)
+
+    opexplist         go to state 111
+    var               go to state 37
+    explist           go to state 112
+    exp               go to state 113
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 52
+
+    4 block: $@1 opstat retstat .
+
+    $default  reduce using rule 4 (block)
+
+
+State 53
+
+    5 opstat: stat opstat .
+
+    $default  reduce using rule 5 (opstat)
+
+
+State 54
+
+    8 stat: varlist TK_UEQ . explist
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    explist           go to state 114
+    exp               go to state 113
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 55
+
+   96 args: TK_STRING .
+
+    $default  reduce using rule 96 (args)
+
+
+State 56
+
+   91 functioncall: var TK_COLON . TK_NAME args
+
+    TK_NAME  shift, and go to state 115
+
+
+State 57
+
+   94 args: TK_LB . opexplist TK_RB
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    $default  reduce using rule 34 (opexplist)
+
+    opexplist         go to state 116
+    var               go to state 37
+    explist           go to state 112
+    exp               go to state 113
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 58
+
+   46 var: var TK_LKB . exp TK_RKB
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 117
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 59
+
+   43 commavar: TK_COMMA . varlist
+
+    TK_NAME  shift, and go to state 5
+    TK_LB    shift, and go to state 14
+
+    varlist       go to state 118
+    var           go to state 18
+    functioncall  go to state 119
+
+
+State 60
+
+   49 var: var TK_DOT . TK_NAME
+
+    TK_NAME  shift, and go to state 120
+
+
+State 61
+
+   42 varlist: var commavar .
+
+    $default  reduce using rule 42 (varlist)
+
+
+State 62
+
+   88 functioncall: var args .
+
+    $default  reduce using rule 88 (functioncall)
+
+
+State 63
+
+   95 args: tableconstructor .
+
+    $default  reduce using rule 95 (args)
+
+
+State 64
+
+   92 functioncall: functioncall TK_COLON . TK_NAME args
+
+    TK_NAME  shift, and go to state 121
+
+
+State 65
+
+   47 var: functioncall TK_LKB . exp TK_RKB
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 122
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 66
+
+   50 var: functioncall TK_DOT . TK_NAME
+
+    TK_NAME  shift, and go to state 123
+
+
+State 67
+
+   89 functioncall: functioncall args .
+
+    $default  reduce using rule 89 (functioncall)
+
+
+State 68
+
+   10 stat: TK_DO block TK_END .
+
+    $default  reduce using rule 10 (stat)
+
+
+State 69
+
+   15 stat: TK_FOR TK_NAME TK_UEQ . exp TK_COMMA exp forstep $@2 TK_DO block TK_END
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 124
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 70
+
+   53 commanames: TK_COMMA . TK_NAME commanames
+
+    TK_NAME  shift, and go to state 125
+
+
+State 71
+
+   52 namelist: TK_NAME commanames .
+
+    $default  reduce using rule 52 (namelist)
+
+
+State 72
+
+   17 stat: TK_FOR namelist TK_IN . explist $@3 TK_DO block TK_END
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    explist           go to state 126
+    exp               go to state 113
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 73
+
+   38 dotnames: TK_DOT . TK_NAME dotnames
+
+    TK_NAME  shift, and go to state 127
+
+
+State 74
+
+   37 funcname: TK_NAME dotnames . colonname
+
+    TK_COLON  shift, and go to state 128
+
+    $default  reduce using rule 41 (colonname)
+
+    colonname  go to state 129
+
+
+State 75
+
+   18 stat: TK_FUNCTION funcname funcbody .
+
+    $default  reduce using rule 18 (stat)
+
+
+State 76
+
+   99 funcbody: $@4 . TK_LB parlist TK_RB block TK_END
+
+    TK_LB  shift, and go to state 130
+
+
+State 77
+
+   97 functiondef: TK_FUNCTION funcbody .
+
+    $default  reduce using rule 97 (functiondef)
+
+
+State 78
+
+   48 var: TK_LB exp . TK_RB TK_LKB exp TK_RKB
+   51    | TK_LB exp . TK_RB TK_DOT TK_NAME
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   87 prefixexp: TK_LB exp . TK_RB
+   90 functioncall: TK_LB exp . TK_RB args
+   93             | TK_LB exp . TK_RB TK_COLON TK_NAME args
+
+    TK_RB      shift, and go to state 131
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 79
+
+   45 var: TK_NAME .
+  113 field: TK_NAME . TK_UEQ exp
+
+    TK_UEQ  shift, and go to state 132
+
+    $default  reduce using rule 45 (var)
+
+
+State 80
+
+  112 field: TK_LKB . exp TK_RKB TK_UEQ exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 133
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 81
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+  114 field: exp .
+
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 114 (field)
+
+
+State 82
+
+  105 tableconstructor: TK_LFB fieldlist . TK_RFB
+
+    TK_RFB  shift, and go to state 134
+
+
+State 83
+
+  106 fieldlist: field . opsepfields opsep
+
+    TK_SEMICOLON  shift, and go to state 135
+    TK_COMMA      shift, and go to state 136
+
+    TK_SEMICOLON  [reduce using rule 109 (opsepfields)]
+    TK_COMMA      [reduce using rule 109 (opsepfields)]
+    $default      reduce using rule 109 (opsepfields)
+
+    opsepfields  go to state 137
+    fieldsep     go to state 138
+
+
+State 84
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   82    | TK_MINUS exp .
+
+    $default  reduce using rule 82 (exp)
+
+
+State 85
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   83    | TK_NOT exp .
+
+    $default  reduce using rule 83 (exp)
+
+
+State 86
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   84    | TK_HASH exp .
+
+    $default  reduce using rule 84 (exp)
+
+
+State 87
+
+   13 stat: TK_IF exp TK_THEN . block elseifs else TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 139
+    $@1    go to state 3
+
+
+State 88
+
+   81 exp: exp TK_OR . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 140
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 89
+
+   80 exp: exp TK_AND . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 141
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 90
+
+   74 exp: exp TK_LT . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 142
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 91
+
+   76 exp: exp TK_GR . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 143
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 92
+
+   77 exp: exp TK_GE . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 144
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 93
+
+   75 exp: exp TK_LE . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 145
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 94
+
+   78 exp: exp TK_EQ . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 146
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 95
+
+   79 exp: exp TK_NE . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 147
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 96
+
+   73 exp: exp TK_CONCAT . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 148
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 97
+
+   67 exp: exp TK_PLUS . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 149
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 98
+
+   68 exp: exp TK_MINUS . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 150
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 99
+
+   69 exp: exp TK_MUL . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 151
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 100
+
+   70 exp: exp TK_DIV . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 152
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 101
+
+   72 exp: exp TK_PREC . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 153
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 102
+
+   71 exp: exp TK_CARET . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 154
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 103
+
+   19 stat: TK_LOCAL TK_FUNCTION TK_NAME . funcbody
+
+    $default  reduce using rule 98 ($@4)
+
+    funcbody  go to state 155
+    $@4       go to state 76
+
+
+State 104
+
+   23 eqexplist: TK_UEQ . explist
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    explist           go to state 156
+    exp               go to state 113
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 105
+
+   20 stat: TK_LOCAL namelist eqexplist .
+
+    $default  reduce using rule 20 (stat)
+
+
+State 106
+
+   12 stat: TK_REPEAT block TK_UNTIL . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 157
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 107
+
+   11 stat: TK_WHILE exp TK_DO . block TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 158
+    $@1    go to state 3
+
+
+State 108
+
+   48 var: TK_LB exp TK_RB . TK_LKB exp TK_RKB
+   51    | TK_LB exp TK_RB . TK_DOT TK_NAME
+   90 functioncall: TK_LB exp TK_RB . args
+   93             | TK_LB exp TK_RB . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 159
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 160
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 161
+
+    args              go to state 162
+    tableconstructor  go to state 63
+
+
+State 109
+
+   35 opsemicolon: TK_SEMICOLON .
+
+    $default  reduce using rule 35 (opsemicolon)
+
+
+State 110
+
+   31 retstat: TK_BREAK opsemicolon .
+
+    $default  reduce using rule 31 (retstat)
+
+
+State 111
+
+   30 retstat: TK_RETURN opexplist . opsemicolon
+
+    TK_SEMICOLON  shift, and go to state 109
+
+    $default  reduce using rule 36 (opsemicolon)
+
+    opsemicolon  go to state 163
+
+
+State 112
+
+   33 opexplist: explist .
+
+    $default  reduce using rule 33 (opexplist)
+
+
+State 113
+
+   55 explist: exp . commaexps
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_COMMA   shift, and go to state 164
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 57 (commaexps)
+
+    commaexps  go to state 165
+
+
+State 114
+
+    8 stat: varlist TK_UEQ explist .
+
+    $default  reduce using rule 8 (stat)
+
+
+State 115
+
+   91 functioncall: var TK_COLON TK_NAME . args
+
+    TK_STRING  shift, and go to state 55
+    TK_LB      shift, and go to state 57
+    TK_LFB     shift, and go to state 33
+
+    args              go to state 166
+    tableconstructor  go to state 63
+
+
+State 116
+
+   94 args: TK_LB opexplist . TK_RB
+
+    TK_RB  shift, and go to state 167
+
+
+State 117
+
+   46 var: var TK_LKB exp . TK_RKB
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_RKB     shift, and go to state 168
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 118
+
+   43 commavar: TK_COMMA varlist .
+
+    $default  reduce using rule 43 (commavar)
+
+
+State 119
+
+   47 var: functioncall . TK_LKB exp TK_RKB
+   50    | functioncall . TK_DOT TK_NAME
+   89 functioncall: functioncall . args
+   92             | functioncall . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 64
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 65
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 66
+
+    args              go to state 67
+    tableconstructor  go to state 63
+
+
+State 120
+
+   49 var: var TK_DOT TK_NAME .
+
+    $default  reduce using rule 49 (var)
+
+
+State 121
+
+   92 functioncall: functioncall TK_COLON TK_NAME . args
+
+    TK_STRING  shift, and go to state 55
+    TK_LB      shift, and go to state 57
+    TK_LFB     shift, and go to state 33
+
+    args              go to state 169
+    tableconstructor  go to state 63
+
+
+State 122
+
+   47 var: functioncall TK_LKB exp . TK_RKB
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_RKB     shift, and go to state 170
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 123
+
+   50 var: functioncall TK_DOT TK_NAME .
+
+    $default  reduce using rule 50 (var)
+
+
+State 124
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp . TK_COMMA exp forstep $@2 TK_DO block TK_END
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_COMMA   shift, and go to state 171
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 125
+
+   53 commanames: TK_COMMA TK_NAME . commanames
+
+    TK_COMMA  shift, and go to state 70
+
+    TK_COMMA  [reduce using rule 54 (commanames)]
+    $default  reduce using rule 54 (commanames)
+
+    commanames  go to state 172
+
+
+State 126
+
+   17 stat: TK_FOR namelist TK_IN explist . $@3 TK_DO block TK_END
+
+    $default  reduce using rule 16 ($@3)
+
+    $@3  go to state 173
+
+
+State 127
+
+   38 dotnames: TK_DOT TK_NAME . dotnames
+
+    TK_DOT  shift, and go to state 73
+
+    $default  reduce using rule 39 (dotnames)
+
+    dotnames  go to state 174
+
+
+State 128
+
+   40 colonname: TK_COLON . TK_NAME
+
+    TK_NAME  shift, and go to state 175
+
+
+State 129
+
+   37 funcname: TK_NAME dotnames colonname .
+
+    $default  reduce using rule 37 (funcname)
+
+
+State 130
+
+   99 funcbody: $@4 TK_LB . parlist TK_RB block TK_END
+
+    TK_NAME  shift, and go to state 43
+    TK_DOTS  shift, and go to state 176
+
+    $default  reduce using rule 102 (parlist)
+
+    namelist  go to state 177
+    parlist   go to state 178
+
+
+State 131
+
+   48 var: TK_LB exp TK_RB . TK_LKB exp TK_RKB
+   51    | TK_LB exp TK_RB . TK_DOT TK_NAME
+   87 prefixexp: TK_LB exp TK_RB .
+   90 functioncall: TK_LB exp TK_RB . args
+   93             | TK_LB exp TK_RB . TK_COLON TK_NAME args
+
+    TK_STRING  shift, and go to state 55
+    TK_COLON   shift, and go to state 159
+    TK_LB      shift, and go to state 57
+    TK_LKB     shift, and go to state 160
+    TK_LFB     shift, and go to state 33
+    TK_DOT     shift, and go to state 161
+
+    TK_LB     [reduce using rule 87 (prefixexp)]
+    $default  reduce using rule 87 (prefixexp)
+
+    args              go to state 162
+    tableconstructor  go to state 63
+
+
+State 132
+
+  113 field: TK_NAME TK_UEQ . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 179
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 133
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+  112 field: TK_LKB exp . TK_RKB TK_UEQ exp
+
+    TK_RKB     shift, and go to state 180
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 134
+
+  105 tableconstructor: TK_LFB fieldlist TK_RFB .
+
+    $default  reduce using rule 105 (tableconstructor)
+
+
+State 135
+
+  116 fieldsep: TK_SEMICOLON .
+
+    $default  reduce using rule 116 (fieldsep)
+
+
+State 136
+
+  115 fieldsep: TK_COMMA .
+
+    $default  reduce using rule 115 (fieldsep)
+
+
+State 137
+
+  106 fieldlist: field opsepfields . opsep
+
+    TK_SEMICOLON  shift, and go to state 135
+    TK_COMMA      shift, and go to state 136
+
+    $default  reduce using rule 111 (opsep)
+
+    opsep     go to state 181
+    fieldsep  go to state 182
+
+
+State 138
+
+  108 opsepfields: fieldsep . field opsepfields
+
+    TK_NAME      shift, and go to state 79
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LKB       shift, and go to state 80
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 81
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+    field             go to state 183
+
+
+State 139
+
+   13 stat: TK_IF exp TK_THEN block . elseifs else TK_END
+
+    TK_ELSEIF  shift, and go to state 184
+
+    $default  reduce using rule 27 (elseifs)
+
+    elseif   go to state 185
+    elseifs  go to state 186
+
+
+State 140
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+   81    | exp TK_OR exp .
+
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 81 (exp)
+
+
+State 141
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   80    | exp TK_AND exp .
+   81    | exp . TK_OR exp
+
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 80 (exp)
+
+
+State 142
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   74    | exp TK_LT exp .
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 74 (exp)
+
+
+State 143
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   76    | exp TK_GR exp .
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 76 (exp)
+
+
+State 144
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   77    | exp TK_GE exp .
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 77 (exp)
+
+
+State 145
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   75    | exp TK_LE exp .
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 75 (exp)
+
+
+State 146
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   78    | exp TK_EQ exp .
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 78 (exp)
+
+
+State 147
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   79    | exp TK_NE exp .
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 79 (exp)
+
+
+State 148
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   73    | exp TK_CONCAT exp .
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_PLUS   shift, and go to state 97
+    TK_MINUS  shift, and go to state 98
+    TK_MUL    shift, and go to state 99
+    TK_DIV    shift, and go to state 100
+    TK_PREC   shift, and go to state 101
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 73 (exp)
+
+
+State 149
+
+   67 exp: exp . TK_PLUS exp
+   67    | exp TK_PLUS exp .
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_MUL    shift, and go to state 99
+    TK_DIV    shift, and go to state 100
+    TK_PREC   shift, and go to state 101
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 67 (exp)
+
+
+State 150
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   68    | exp TK_MINUS exp .
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_MUL    shift, and go to state 99
+    TK_DIV    shift, and go to state 100
+    TK_PREC   shift, and go to state 101
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 68 (exp)
+
+
+State 151
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   69    | exp TK_MUL exp .
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 69 (exp)
+
+
+State 152
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   70    | exp TK_DIV exp .
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 70 (exp)
+
+
+State 153
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   72    | exp TK_PREC exp .
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_CARET  shift, and go to state 102
+
+    $default  reduce using rule 72 (exp)
+
+
+State 154
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   71    | exp TK_CARET exp .
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    $default  reduce using rule 71 (exp)
+
+
+State 155
+
+   19 stat: TK_LOCAL TK_FUNCTION TK_NAME funcbody .
+
+    $default  reduce using rule 19 (stat)
+
+
+State 156
+
+   23 eqexplist: TK_UEQ explist .
+
+    $default  reduce using rule 23 (eqexplist)
+
+
+State 157
+
+   12 stat: TK_REPEAT block TK_UNTIL exp .
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 12 (stat)
+
+
+State 158
+
+   11 stat: TK_WHILE exp TK_DO block . TK_END
+
+    TK_END  shift, and go to state 187
+
+
+State 159
+
+   93 functioncall: TK_LB exp TK_RB TK_COLON . TK_NAME args
+
+    TK_NAME  shift, and go to state 188
+
+
+State 160
+
+   48 var: TK_LB exp TK_RB TK_LKB . exp TK_RKB
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 189
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 161
+
+   51 var: TK_LB exp TK_RB TK_DOT . TK_NAME
+
+    TK_NAME  shift, and go to state 190
+
+
+State 162
+
+   90 functioncall: TK_LB exp TK_RB args .
+
+    $default  reduce using rule 90 (functioncall)
+
+
+State 163
+
+   30 retstat: TK_RETURN opexplist opsemicolon .
+
+    $default  reduce using rule 30 (retstat)
+
+
+State 164
+
+   56 commaexps: TK_COMMA . exp commaexps
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 191
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 165
+
+   55 explist: exp commaexps .
+
+    $default  reduce using rule 55 (explist)
+
+
+State 166
+
+   91 functioncall: var TK_COLON TK_NAME args .
+
+    $default  reduce using rule 91 (functioncall)
+
+
+State 167
+
+   94 args: TK_LB opexplist TK_RB .
+
+    $default  reduce using rule 94 (args)
+
+
+State 168
+
+   46 var: var TK_LKB exp TK_RKB .
+
+    $default  reduce using rule 46 (var)
+
+
+State 169
+
+   92 functioncall: functioncall TK_COLON TK_NAME args .
+
+    $default  reduce using rule 92 (functioncall)
+
+
+State 170
+
+   47 var: functioncall TK_LKB exp TK_RKB .
+
+    $default  reduce using rule 47 (var)
+
+
+State 171
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA . exp forstep $@2 TK_DO block TK_END
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 192
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 172
+
+   53 commanames: TK_COMMA TK_NAME commanames .
+
+    $default  reduce using rule 53 (commanames)
+
+
+State 173
+
+   17 stat: TK_FOR namelist TK_IN explist $@3 . TK_DO block TK_END
+
+    TK_DO  shift, and go to state 193
+
+
+State 174
+
+   38 dotnames: TK_DOT TK_NAME dotnames .
+
+    $default  reduce using rule 38 (dotnames)
+
+
+State 175
+
+   40 colonname: TK_COLON TK_NAME .
+
+    $default  reduce using rule 40 (colonname)
+
+
+State 176
+
+  101 parlist: TK_DOTS .
+
+    $default  reduce using rule 101 (parlist)
+
+
+State 177
+
+  100 parlist: namelist . opcommadots
+
+    TK_COMMA  shift, and go to state 194
+
+    $default  reduce using rule 104 (opcommadots)
+
+    opcommadots  go to state 195
+
+
+State 178
+
+   99 funcbody: $@4 TK_LB parlist . TK_RB block TK_END
+
+    TK_RB  shift, and go to state 196
+
+
+State 179
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+  113 field: TK_NAME TK_UEQ exp .
+
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 113 (field)
+
+
+State 180
+
+  112 field: TK_LKB exp TK_RKB . TK_UEQ exp
+
+    TK_UEQ  shift, and go to state 197
+
+
+State 181
+
+  106 fieldlist: field opsepfields opsep .
+
+    $default  reduce using rule 106 (fieldlist)
+
+
+State 182
+
+  110 opsep: fieldsep .
+
+    $default  reduce using rule 110 (opsep)
+
+
+State 183
+
+  108 opsepfields: fieldsep field . opsepfields
+
+    TK_SEMICOLON  shift, and go to state 135
+    TK_COMMA      shift, and go to state 136
+
+    TK_SEMICOLON  [reduce using rule 109 (opsepfields)]
+    TK_COMMA      [reduce using rule 109 (opsepfields)]
+    $default      reduce using rule 109 (opsepfields)
+
+    opsepfields  go to state 198
+    fieldsep     go to state 138
+
+
+State 184
+
+   25 elseif: TK_ELSEIF . exp TK_THEN block
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 199
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 185
+
+   26 elseifs: elseif . elseifs
+
+    TK_ELSEIF  shift, and go to state 184
+
+    $default  reduce using rule 27 (elseifs)
+
+    elseif   go to state 185
+    elseifs  go to state 200
+
+
+State 186
+
+   13 stat: TK_IF exp TK_THEN block elseifs . else TK_END
+
+    TK_ELSE  shift, and go to state 201
+
+    $default  reduce using rule 29 (else)
+
+    else  go to state 202
+
+
+State 187
+
+   11 stat: TK_WHILE exp TK_DO block TK_END .
+
+    $default  reduce using rule 11 (stat)
+
+
+State 188
+
+   93 functioncall: TK_LB exp TK_RB TK_COLON TK_NAME . args
+
+    TK_STRING  shift, and go to state 55
+    TK_LB      shift, and go to state 57
+    TK_LFB     shift, and go to state 33
+
+    args              go to state 203
+    tableconstructor  go to state 63
+
+
+State 189
+
+   48 var: TK_LB exp TK_RB TK_LKB exp . TK_RKB
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_RKB     shift, and go to state 204
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 190
+
+   51 var: TK_LB exp TK_RB TK_DOT TK_NAME .
+
+    $default  reduce using rule 51 (var)
+
+
+State 191
+
+   56 commaexps: TK_COMMA exp . commaexps
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_COMMA   shift, and go to state 164
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 57 (commaexps)
+
+    commaexps  go to state 205
+
+
+State 192
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp . forstep $@2 TK_DO block TK_END
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_COMMA   shift, and go to state 206
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 22 (forstep)
+
+    forstep  go to state 207
+
+
+State 193
+
+   17 stat: TK_FOR namelist TK_IN explist $@3 TK_DO . block TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 208
+    $@1    go to state 3
+
+
+State 194
+
+  103 opcommadots: TK_COMMA . TK_DOTS
+
+    TK_DOTS  shift, and go to state 209
+
+
+State 195
+
+  100 parlist: namelist opcommadots .
+
+    $default  reduce using rule 100 (parlist)
+
+
+State 196
+
+   99 funcbody: $@4 TK_LB parlist TK_RB . block TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 210
+    $@1    go to state 3
+
+
+State 197
+
+  112 field: TK_LKB exp TK_RKB TK_UEQ . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 211
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 198
+
+  108 opsepfields: fieldsep field opsepfields .
+
+    $default  reduce using rule 108 (opsepfields)
+
+
+State 199
+
+   25 elseif: TK_ELSEIF exp . TK_THEN block
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_THEN    shift, and go to state 212
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+
+State 200
+
+   26 elseifs: elseif elseifs .
+
+    $default  reduce using rule 26 (elseifs)
+
+
+State 201
+
+   28 else: TK_ELSE . block
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 213
+    $@1    go to state 3
+
+
+State 202
+
+   13 stat: TK_IF exp TK_THEN block elseifs else . TK_END
+
+    TK_END  shift, and go to state 214
+
+
+State 203
+
+   93 functioncall: TK_LB exp TK_RB TK_COLON TK_NAME args .
+
+    $default  reduce using rule 93 (functioncall)
+
+
+State 204
+
+   48 var: TK_LB exp TK_RB TK_LKB exp TK_RKB .
+
+    $default  reduce using rule 48 (var)
+
+
+State 205
+
+   56 commaexps: TK_COMMA exp commaexps .
+
+    $default  reduce using rule 56 (commaexps)
+
+
+State 206
+
+   21 forstep: TK_COMMA . exp
+
+    TK_NAME      shift, and go to state 5
+    TK_FALSE     shift, and go to state 25
+    TK_FUNCTION  shift, and go to state 26
+    TK_NIL       shift, and go to state 27
+    TK_TRUE      shift, and go to state 28
+    TK_DOTS      shift, and go to state 29
+    TK_NUMBER    shift, and go to state 30
+    TK_STRING    shift, and go to state 31
+    TK_LB        shift, and go to state 32
+    TK_LFB       shift, and go to state 33
+    TK_MINUS     shift, and go to state 34
+    TK_NOT       shift, and go to state 35
+    TK_HASH      shift, and go to state 36
+
+    var               go to state 37
+    exp               go to state 215
+    prefixexp         go to state 39
+    functioncall      go to state 40
+    functiondef       go to state 41
+    tableconstructor  go to state 42
+
+
+State 207
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep . $@2 TK_DO block TK_END
+
+    $default  reduce using rule 14 ($@2)
+
+    $@2  go to state 216
+
+
+State 208
+
+   17 stat: TK_FOR namelist TK_IN explist $@3 TK_DO block . TK_END
+
+    TK_END  shift, and go to state 217
+
+
+State 209
+
+  103 opcommadots: TK_COMMA TK_DOTS .
+
+    $default  reduce using rule 103 (opcommadots)
+
+
+State 210
+
+   99 funcbody: $@4 TK_LB parlist TK_RB block . TK_END
+
+    TK_END  shift, and go to state 218
+
+
+State 211
+
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+  112 field: TK_LKB exp TK_RKB TK_UEQ exp .
+
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 112 (field)
+
+
+State 212
+
+   25 elseif: TK_ELSEIF exp TK_THEN . block
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 219
+    $@1    go to state 3
+
+
+State 213
+
+   28 else: TK_ELSE block .
+
+    $default  reduce using rule 28 (else)
+
+
+State 214
+
+   13 stat: TK_IF exp TK_THEN block elseifs else TK_END .
+
+    $default  reduce using rule 13 (stat)
+
+
+State 215
+
+   21 forstep: TK_COMMA exp .
+   67 exp: exp . TK_PLUS exp
+   68    | exp . TK_MINUS exp
+   69    | exp . TK_MUL exp
+   70    | exp . TK_DIV exp
+   71    | exp . TK_CARET exp
+   72    | exp . TK_PREC exp
+   73    | exp . TK_CONCAT exp
+   74    | exp . TK_LT exp
+   75    | exp . TK_LE exp
+   76    | exp . TK_GR exp
+   77    | exp . TK_GE exp
+   78    | exp . TK_EQ exp
+   79    | exp . TK_NE exp
+   80    | exp . TK_AND exp
+   81    | exp . TK_OR exp
+
+    TK_OR      shift, and go to state 88
+    TK_AND     shift, and go to state 89
+    TK_LT      shift, and go to state 90
+    TK_GR      shift, and go to state 91
+    TK_GE      shift, and go to state 92
+    TK_LE      shift, and go to state 93
+    TK_EQ      shift, and go to state 94
+    TK_NE      shift, and go to state 95
+    TK_CONCAT  shift, and go to state 96
+    TK_PLUS    shift, and go to state 97
+    TK_MINUS   shift, and go to state 98
+    TK_MUL     shift, and go to state 99
+    TK_DIV     shift, and go to state 100
+    TK_PREC    shift, and go to state 101
+    TK_CARET   shift, and go to state 102
+
+    $default  reduce using rule 21 (forstep)
+
+
+State 216
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 . TK_DO block TK_END
+
+    TK_DO  shift, and go to state 220
+
+
+State 217
+
+   17 stat: TK_FOR namelist TK_IN explist $@3 TK_DO block TK_END .
+
+    $default  reduce using rule 17 (stat)
+
+
+State 218
+
+   99 funcbody: $@4 TK_LB parlist TK_RB block TK_END .
+
+    $default  reduce using rule 99 (funcbody)
+
+
+State 219
+
+   25 elseif: TK_ELSEIF exp TK_THEN block .
+
+    $default  reduce using rule 25 (elseif)
+
+
+State 220
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO . block TK_END
+
+    $default  reduce using rule 3 ($@1)
+
+    block  go to state 221
+    $@1    go to state 3
+
+
+State 221
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO block . TK_END
+
+    TK_END  shift, and go to state 222
+
+
+State 222
+
+   15 stat: TK_FOR TK_NAME TK_UEQ exp TK_COMMA exp forstep $@2 TK_DO block TK_END .
+
+    $default  reduce using rule 15 (stat)

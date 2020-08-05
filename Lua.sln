@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Lua\Lua.vcxproj", "{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{4A42FD50-A25A-4606-8659-F25791D744B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "progs", "progs", "{64C8C698-250E-435C-B769-EF16F5422BAB}"
+	ProjectSection(SolutionItems) = preProject
+		texts\big.lua = texts\big.lua
+		texts\expressions.lua = texts\expressions.lua
+		texts\for.lua = texts\for.lua
+		texts\function.lua = texts\function.lua
+		texts\if.lua = texts\if.lua
+		texts\repeat.lua = texts\repeat.lua
+		texts\strings.lua = texts\strings.lua
+		texts\table.lua = texts\table.lua
+		texts\while.lua = texts\while.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "standard", "standard", "{D259EED1-F426-456A-A2B9-AE9185973448}"
+	ProjectSection(SolutionItems) = preProject
+		standard\expressions.json = standard\expressions.json
+		standard\for.json = standard\for.json
+		standard\function.json = standard\function.json
+		standard\if.json = standard\if.json
+		standard\repeat.json = standard\repeat.json
+		standard\strings.json = standard\strings.json
+		standard\table.json = standard\table.json
+		standard\while.json = standard\while.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Debug|x64.ActiveCfg = Debug|x64
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Debug|x64.Build.0 = Debug|x64
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Debug|x86.ActiveCfg = Debug|Win32
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Debug|x86.Build.0 = Debug|Win32
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Release|x64.ActiveCfg = Release|x64
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Release|x64.Build.0 = Release|x64
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Release|x86.ActiveCfg = Release|Win32
+		{CDB3FADE-680A-4E78-AFB5-B12DD8B35160}.Release|x86.Build.0 = Release|Win32
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Debug|x64.ActiveCfg = Debug|x64
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Debug|x64.Build.0 = Debug|x64
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Debug|x86.Build.0 = Debug|Win32
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Release|x64.ActiveCfg = Release|x64
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Release|x64.Build.0 = Release|x64
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Release|x86.ActiveCfg = Release|Win32
+		{4A42FD50-A25A-4606-8659-F25791D744B7}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A2AA119-458C-4555-B1AE-44ED03BBE058}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,188 @@
+{
+    "states": [
+        {
+            "for": {
+                "control_variable_name": "i",
+                "type": "double",
+                "control_variable_id": 1,
+                "begin": {
+                    "type": "double",
+                    "value": 1.0
+                },
+                "end": {
+                    "type": "double",
+                    "value": 100.0
+                },
+                "step": {
+                    "value": 1.0,
+                    "type": "double"
+                },
+                "block": {
+                    "states": [
+                        {
+                            "functioncall": {
+                                "prefixexp": {
+                                    "var_name": "print"
+                                },
+                                "arguments": [
+                                    {
+                                        "variable_name": "i",
+                                        "type": "double",
+                                        "id": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "u",
+                "type": "table",
+                "id": 2,
+                "expression": {
+                    "type": "table",
+                    "value": {
+                        "fieldlist": [
+                            {
+                                "left_expression": {
+                                    "type": "string",
+                                    "value": "@!#"
+                                },
+                                "right_expression": {
+                                    "type": "string",
+                                    "value": "qbert"
+                                }
+                            },
+                            {
+                                "left_expression": {
+                                    "type": "table",
+                                    "value": {
+                                        "fieldlist": {}
+                                    }
+                                },
+                                "right_expression": {
+                                    "type": "double",
+                                    "value": 1729.0
+                                }
+                            },
+                            {
+                                "left_expression": {
+                                    "type": "double",
+                                    "value": 6.28
+                                },
+                                "right_expression": {
+                                    "type": "string",
+                                    "value": "tau"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "for": {
+                "control_variable_name": "j",
+                "type": "double",
+                "control_variable_id": 3,
+                "begin": {
+                    "type": "double",
+                    "value": 100.0
+                },
+                "end": {
+                    "type": "double",
+                    "value": 1.0
+                },
+                "step": {
+                    "type": "double",
+                    "operator": "-",
+                    "argument": {
+                        "type": "double",
+                        "value": 1.0
+                    }
+                },
+                "block": {
+                    "states": [
+                        {
+                            "assigment": {
+                                "variable_name": "a",
+                                "type": "unknown",
+                                "id": 4,
+                                "expression": {
+                                    "prefixexp": {
+                                        "var_name": "sin"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "variable_name": "j",
+                                            "type": "double",
+                                            "id": 3
+                                        }
+                                    ],
+                                    "type": "unknown"
+                                }
+                            }
+                        },
+                        {
+                            "foreach": {
+                                "name_list": [
+                                    {
+                                        "variable_name": "key",
+                                        "type": "unknown",
+                                        "id": 5
+                                    },
+                                    {
+                                        "variable_name": "val",
+                                        "type": "unknown",
+                                        "id": 6
+                                    }
+                                ],
+                                "expressions_list": [
+                                    {
+                                        "prefixexp": {
+                                            "var_name": "pairs"
+                                        },
+                                        "arguments": [
+                                            {
+                                                "variable_name": "u",
+                                                "type": "table",
+                                                "id": 2
+                                            }
+                                        ],
+                                        "type": "unknown"
+                                    }
+                                ],
+                                "block": {
+                                    "states": [
+                                        {
+                                            "functioncall": {
+                                                "prefixexp": {
+                                                    "var_name": "print"
+                                                },
+                                                "arguments": [
+                                                    {
+                                                        "variable_name": "key",
+                                                        "type": "unknown",
+                                                        "id": 5
+                                                    },
+                                                    {
+                                                        "variable_name": "val",
+                                                        "type": "unknown",
+                                                        "id": 6
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

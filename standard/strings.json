@@ -1,0 +1,48 @@
+{
+    "states": [
+        {
+            "assigment": {
+                "variable_name": "s",
+                "type": "string",
+                "id": 1,
+                "expression": {
+                    "type": "string",
+                    "value": "walternate"
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "t",
+                "type": "string",
+                "id": 2,
+                "expression": {
+                    "type": "string",
+                    "value": "Двойные кавычки также приветствуются"
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "u",
+                "type": "string",
+                "id": 3,
+                "expression": {
+                    "type": "string",
+                    "value": " Двойные квадратные скобки\n       начинают и заканчивают\n       многострочные значения."
+                }
+            }
+        },
+        {
+            "assigment": {
+                "variable_name": "t",
+                "type": "nil",
+                "id": 2,
+                "expression": {
+                    "type": "nil",
+                    "value": "nil"
+                }
+            }
+        }
+    ]
+}
